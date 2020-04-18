@@ -1,1 +1,1 @@
-web: vendor/bin/project-php-apache public/
+web: vendor/bin/project-php-apache2 public/
