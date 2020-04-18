@@ -16,3 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/index', 'ATGController@index')->name('ATGindex');
+Route::post('/register', 'ATGController@register')->name('ATGregister');
