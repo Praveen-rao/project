@@ -1,0 +1,1 @@
+web: vendor/bin/project-php-apache public/
