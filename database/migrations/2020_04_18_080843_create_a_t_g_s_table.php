@@ -15,8 +15,8 @@ class CreateATGSTable extends Migration
     {
         Schema::create('a_t_g_s', function (Blueprint $table) {
             $table->id();
-            $table->string('email')->unique();
-            $table->string('username')->unique();
+            $table->string('email');
+            $table->string('username');
             $table->bigInteger('pincode');
             $table->timestamps();
         });

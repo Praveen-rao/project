@@ -19,10 +19,10 @@ class ATGController extends Controller
     {
 
         $validatedData = $request->validate([
-            'username' => 'required|unique:a_t_g_s|max:255',
-            'email' => 'required|unique:a_t_g_s|email:rfc,dns',
+            'email' => 'required|email:rfc,dns',
             'pincode' => 'size:6'
         ]);
+
 
         $user = new ATG();
 
@@ -30,9 +30,16 @@ class ATGController extends Controller
         $user->username = request('username');
         $user->pincode = request('pincode');
         
- 
-    
-    
+        foreach(ATG::all() as $users)
+        {
+            if( $users->email ==  request('email') &&
+            $users->username == request('username') &&
+            $users->pincode == request('pincode') )
+            {
+                return redirect('/index')->with('message','Sorry! the record already exists in database.');
+            }
+        }    
+        // return redirect('/index')->with('message','Sorry! the record already exists');
 
         $user->save();
 

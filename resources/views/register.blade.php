@@ -21,11 +21,12 @@
             @enderror        
         </div>
         <div class="form-group">
-            <label for="username">*username</label>
-            <input type="text" name="username" class="form-control @error('username') is-invalid @enderror" id="exampleInputPassword1 " >
-            @error('username')
+            <label for="username">username</label>
+            <input type="text" name="username" class="form-control" id="exampleInputPassword1 " >
+            <!-- @error('username')
                 <div class="alert alert-danger">{{ $message }}</div>
-            @enderror            
+            @enderror           
+             @error('username') is-invalid @enderror  -->
         </div>
         <div class="form-group">
             <label for="username">Pincode</label>
@@ -41,8 +42,9 @@
     </div>
 
 
-
-
+    <div class="text-center pt-3 ">
+    <p class="text-danger ">{{session('message')}}</p>
+    </div>
 
 
       <script src="/js/app.js"></script>
