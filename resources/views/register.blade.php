@@ -12,7 +12,7 @@
 
     <div class="container col-md-5 offset-md-4 mt-5">
     <form action="{{ route('ATGregister')}}" method="POST">
-    @csrf
+     @csrf
         <div class="form-group">
             <label for="email">*Email address</label>
             <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="exampleInputEmail1" aria-describedby="emailHelp ">
@@ -42,9 +42,12 @@
     </div>
 
 
+
     <div class="text-center pt-3 ">
-    <p class="text-danger ">{{session('message')}}</p>
+    @include('flash::message')
+    <!-- <p class="text-danger ">{{session('message')}}</p> -->
     </div>
+
 
 
       <script src="/js/app.js"></script>

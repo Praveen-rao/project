@@ -19,3 +19,4 @@ Route::get('/', function () {
 
 Route::get('/index', 'ATGController@index')->name('ATGindex');
 Route::post('/register', 'ATGController@register')->name('ATGregister');
+//Route::post('/registere', 'API\UserController@registere');

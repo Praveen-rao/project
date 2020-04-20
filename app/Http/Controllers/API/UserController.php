@@ -1,27 +1,41 @@
 <?php
+namespace App\Http\Controllers\API;
+use Illuminate\Http\Request; 
+use App\Http\Controllers\Controller; 
+use App\ATG; 
+use Illuminate\Support\Facades\Auth; 
+use Validator;
 
-namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-use App\ATG;
 use App\Traits\ATGTrait;
 
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\FirePHPHandler;
 
-class ATGController extends Controller
+class UserController extends Controller 
 {
-    //
-    //public $successStatus = 200;
-
-    public function index()
-    {
-        return view('register');
-
-    }
-
-    public function register(Request $request)
+public $successStatus = 200;
+/** 
+     * login api 
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    // public function login(){ 
+    //     if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){ 
+    //         $user = Auth::user(); 
+    //         $success['token'] =  $user->createToken('MyApp')-> accessToken; 
+    //         return response()->json(['success' => $success], $this-> successStatus); 
+    //     } 
+    //     else{ 
+    //         return response()->json(['error'=>'Unauthorised'], 401); 
+    //     } 
+    // }
+/** 
+     * Register api 
+     * 
+     * @return \Illuminate\Http\Response 
+     */ 
+    public function registere(Request $request)
     {
 
        
@@ -41,7 +55,7 @@ class ATGController extends Controller
         // $user->username = request('username');
         // $user->pincode = request('pincode');
         
-        ATGTrait::createapi($request);
+        $user = ATGTrait::createapi($request);
 
         foreach(ATG::all() as $users)
         {
@@ -49,8 +63,9 @@ class ATGController extends Controller
             $users->username == request('username') &&
             $users->pincode == request('pincode') )
             {
-                flash('Sorry! the record already exists in database.')->error()->important();
-                return redirect('/index')->with('message','Sorry! the record already exists in database.');
+                // flash('Sorry! the record already exists in database.')->error()->important();
+                // return redirect('/index');
+                return "Sorry! the record already exists in database.";
             }
         }    
         // return redirect('/index')->with('message','Sorry! the record already exists');
@@ -75,15 +90,7 @@ class ATGController extends Controller
 
         ATGTrait::mail();
 
-        // $input = $request->all(); 
-        // //$input['password'] = bcrypt($input['password']); 
-        // $usered = ATG::create($input); 
-        // $success['token'] =  $usered->createToken('MyApp')-> accessToken; 
-        // $success['name'] =  $usered->name;
-
-        // return response()->json(['success'=>$success], $this-> successStatus); 
-
-        return redirect('/')->with('status','you have successfully registered!!');
-        //return response()->json(['success'=>'1'], $this-> successStatus);
+        
+        return response()->json(['success'=>'1'], $this-> successStatus);
     }
 }
