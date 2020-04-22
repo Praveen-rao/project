@@ -4,7 +4,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller; 
 use App\ATG; 
 use Illuminate\Support\Facades\Auth; 
-use Validator;
+// use Validator;
+
+use Illuminate\Support\Facades\Validator;
 
 use App\Traits\ATGTrait;
 
@@ -38,7 +40,7 @@ public $successStatus = 200;
     public function registere(Request $request)
     {
 
-       
+       $dup = 0;
 
         // $validatedData = $request->validate([
         //     'email' => 'required|email:rfc,dns',
@@ -54,9 +56,16 @@ public $successStatus = 200;
         // $user->email = request('email');
         // $user->username = request('username');
         // $user->pincode = request('pincode');
-        
-        $user = ATGTrait::createapi($request);
 
+        $validatedData = ATGTrait::validateapi($request);
+
+        if($validatedData->fails())
+        {
+            return response()->json(['status'=>'0','error'=>[$validatedData->errors()]]);
+        }
+        
+        $user = ATGTrait::createapi();
+    
         foreach(ATG::all() as $users)
         {
             if( $users->email ==  request('email') &&
@@ -65,7 +74,12 @@ public $successStatus = 200;
             {
                 // flash('Sorry! the record already exists in database.')->error()->important();
                 // return redirect('/index');
-                return "Sorry! the record already exists in database.";
+                //return "Sorry! the record already exists in database.";
+                $dup = 1;
+
+                return response()->json(['status'=>'0','error'=>['duplicate'=>$dup]]);
+                
+                
             }
         }    
         // return redirect('/index')->with('message','Sorry! the record already exists');
@@ -91,6 +105,6 @@ public $successStatus = 200;
         ATGTrait::mail();
 
         
-        return response()->json(['success'=>'1'], $this-> successStatus);
+        return response()->json(['status'=>'1','error'=>'Record has been added to database!']);
     }
 }

@@ -11,9 +11,9 @@ class ATG extends Model
     //
     // protected $table = "project";
 
-    protected $fillable = [
-        'token','username','email','pincode',
-    ];
+    // protected $fillable = [
+    //     'username','email','pincode',
+    // ];
 
     
 }

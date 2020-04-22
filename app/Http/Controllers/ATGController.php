@@ -40,8 +40,13 @@ class ATGController extends Controller
         // $user->email = request('email');
         // $user->username = request('username');
         // $user->pincode = request('pincode');
+
+        $validatedData = ATGTrait::validateapi($request);
+
+        $validatedData->validate();
         
-        ATGTrait::createapi($request);
+        $user = ATGTrait::createapi();
+
 
         foreach(ATG::all() as $users)
         {

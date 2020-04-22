@@ -22,4 +22,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/index', 'ATGController@index');
-Route::post('registere', 'API\UserController@registere');
+Route::post('/registere', 'API\UserController@registere');

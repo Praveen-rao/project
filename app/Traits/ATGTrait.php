@@ -3,6 +3,8 @@
 namespace App\Traits;
 
 use App\ATG;
+// use Validator;
+use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Http\Request;
 
@@ -13,21 +15,23 @@ use Monolog\Handler\FirePHPHandler;
 
   
 trait ATGTrait {
-  
+    
     /**
      * @param Request $request
      * @return $this|false|string
      */
     public static function create(Request $request)
     {
-        $validatedData = $request->validate([
+        // $request->validate(
+        $validatedData = Validator::make($request->all(),[
             'email' => 'required|email:rfc,dns',
             'pincode' => 'size:6'
         ]);
+
         
-        // if ($validatedData->fails()) { 
-        //     return response()->json(['error'=>$validatedData->errors()], 401);            
-        // }
+        if ($validatedData->fails()) { 
+            return response()->json(['error'=>$validatedData->errors()], 401);            
+        }
 
         $user = new ATG();
 
@@ -50,17 +54,28 @@ trait ATGTrait {
         $user->save();
     }
 
-    public static function createapi(Request $request)
+
+    public static function validateapi(Request $request)
     {
-        $validatedData = $request->validate([
+        
+        $validatedData = Validator::make($request->all(),[
             'email' => 'required|email:rfc,dns',
-            'pincode' => 'size:6'
+            'pincode' => 'required|size:6',
         ]);
+
         
         // if ($validatedData->fails()) { 
-        //     return response()->json(['error'=>$validatedData->errors()], 401);            
-        // }
+        //     // return response()->json(['error'=>$validatedData->errors()], 401);
+        //     //return redirect('/index')->withErrors($validatedData)->withInput(); 
+        //     return response()->json(['status'=>'0','error'=>[$validatedData->errors()]]);
 
+        //     // return $validatedData;         
+        // }
+        
+        return $validatedData;
+    }
+    public static function createapi()
+    {
         $user = new ATG();
 
         $user->email = request('email');
